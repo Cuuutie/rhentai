@@ -9,16 +9,16 @@ button {
   color: white;
   background-color: black;
   border: 2px solid white;
-  width: 200px;
+  width: 25%;
   height: 50px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 20px 2px;
   transition-duration: 0.4s;
   cursor: pointer;
-  bottom: 1%;
+  bottom: 0px;
   position: fixed;
 }
 
@@ -45,10 +45,6 @@ a:visited {
 }
 
 #image {
+  max-width: 100%;
   max-height: 700px;
-  object-fit: cover;
-
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
