@@ -5,15 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>random hentai</title>
+    <title>Random Hentai Generator</title>
   </head>
   <body>
     <h1 id="title"></h1>
     <a id="authorLink" target="_blank"><h2 id="author"></h1></a>
     <a id="imageLink" target="_blank"><img id="image" /></a>
     <br>
-    <button id="previousButton" onclick="LoadPrevious()">Previous</button>
-    <button id="nextButton" onclick="LoadNext()">Next</button>
+    <div class="buttons">
+      <button id="previousButton" onclick="LoadPrevious()">Previous</button>
+      <button id="generateButton" onclick="Generate()">Generate</button>
+      <button id="nextButton" onclick="LoadNext()">Next</button>
+    </div>
   </body>
   <script src="generate.js"></script>
 </html>

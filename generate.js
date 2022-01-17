@@ -4,31 +4,13 @@ const linkOutput = document.getElementById("imageLink");
 const authorLinkOutput = document.getElementById("authorLink");
 const imageOutput = document.getElementById("image");
 
-let image;
-let title;
-let author;
-let permalink;
-let link;
+const posts = [];
 
-let previousImage;
-let previousTitle;
-let previousAuthor;
-let previousPermalink;
-let previousLink;
-
-let nextImage;
-let nextTitle;
-let nextAuthor;
-let nextPermalink;
-let nextLink;
+let currentIndex;
+let nextIndex;
+let previousIndex;
 
 function Generate() {
-  previousImage = image;
-  previousTitle = title;
-  previousAuthor = author;
-  previousPermalink = permalink;
-  previousLink = link;
-
   fetch("https://www.reddit.com/r/hentai/random.json")
     .then((result) => {
       return result.json();
@@ -45,51 +27,44 @@ function Generate() {
       permalink = content[0].data.children[0].data.permalink;
       link = "https://www.reddit.com" + permalink;
 
-      imageOutput.src = image;
-      imageOutput.onload = () => {
-        titleOutput.innerText = title;
-        authorOutput.innerText = author;
-        linkOutput.href = link;
-        authorLinkOutput.href = `https://www.reddit.com/u/${author}`;
-      };
+      const post = new Post(image, title, author, link);
+      posts.push(post);
+
+      LoadPost(post);
     });
 }
 
 function LoadPrevious() {
-  nextImage = image;
-  nextTitle = title;
-  nextAuthor = author;
-  nextPermalink = permalink;
-  nextLink = link;
-
-  if (!previousImage) return;
-
-  imageOutput.src = previousImage;
-  imageOutput.onload = () => {
-    titleOutput.innerText = previousTitle;
-    authorOutput.innerText = previousAuthor;
-    linkOutput.href = previousLink;
-    authorLinkOutput.href = `https://www.reddit.com/u/${previousAuthor}`;
-  };
+  if (posts[currentIndex - 1]) return LoadPost(posts[currentIndex - 1]);
 }
 
 function LoadNext() {
-  if (nextImage) {
-    imageOutput.src = image;
-    imageOutput.onload = () => {
-      titleOutput.innerText = title;
-      authorOutput.innerText = author;
-      linkOutput.href = link;
-      authorLinkOutput.href = `https://www.reddit.com/u/${author}`;
+  if (nextIndex) return LoadPost(nextIndex);
+  else {
+    Generate();
+  }
+}
 
-      nextImage = null;
-      nextTitle = null;
-      nextAuthor = null;
-      nextPermalink = null;
-      nextLink = null;
-    };
-  } else {
-    return Generate();
+function LoadPost(post) {
+  imageOutput.src = post.image;
+  imageOutput.onload = () => {
+    titleOutput.innerText = post.title;
+    authorOutput.innerText = post.author;
+    linkOutput.href = post.link;
+    authorLinkOutput.href = `https://www.reddit.com/u/${author}`;
+  };
+
+  currentIndex = posts.indexOf(post);
+  nextIndex = posts[currentIndex + 1];
+  previousIndex = posts[currentIndex - 1];
+}
+
+class Post {
+  constructor(image, title, author, link) {
+    this.image = image;
+    this.title = title;
+    this.author = author;
+    this.link = link;
   }
 }
 
